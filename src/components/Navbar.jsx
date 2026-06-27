@@ -7,41 +7,43 @@ import { useAuth } from '../context/AuthContext'
 const styles = {
   nav: {
     position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
-    background: 'rgba(10,10,15,0.95)', backdropFilter: 'blur(20px)',
-    borderBottom: '1px solid rgba(139,92,246,0.2)',
+    background: '#FFFFFF',
+    borderBottom: '1px solid rgba(176,38,79,0.12)',
+    boxShadow: '0 1px 0 rgba(36,16,22,0.04), 0 4px 16px rgba(36,16,22,0.04)',
     padding: '0 24px', height: 64,
     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
   },
   logo: {
-    fontSize: 22, fontWeight: 700, color: '#c084fc',
-    textDecoration: 'none', letterSpacing: '-0.5px',
+    fontSize: 22, fontWeight: 700, color: '#B0264F',
+    fontFamily: "'Playfair Display', serif",
+    textDecoration: 'none', letterSpacing: '-0.3px',
     display: 'flex', alignItems: 'center', gap: 8,
   },
   logoMoon: { fontSize: 20 },
   links: { display: 'flex', gap: 28, listStyle: 'none' },
-  link: { color: '#d1b3ff', textDecoration: 'none', fontSize: 14, fontWeight: 500,
+  link: { color: '#4A3B38', textDecoration: 'none', fontSize: 14, fontWeight: 500,
     transition: 'color 0.2s' },
   right: { display: 'flex', alignItems: 'center', gap: 16 },
   iconBtn: {
     background: 'none', border: 'none', cursor: 'pointer',
-    color: '#d1b3ff', position: 'relative', padding: 6, borderRadius: 8,
+    color: '#4A3B38', position: 'relative', padding: 6, borderRadius: 8,
     display: 'flex', alignItems: 'center', transition: 'color 0.2s',
   },
   badge: {
     position: 'absolute', top: 0, right: 0,
-    background: '#c084fc', color: '#0a0a0f', fontSize: 10,
+    background: '#B0264F', color: '#FFF8F2', fontSize: 10,
     fontWeight: 700, borderRadius: '50%', width: 16, height: 16,
     display: 'flex', alignItems: 'center', justifyContent: 'center',
   },
   dropdown: {
     position: 'absolute', top: 44, right: 0,
-    background: '#1a1025', border: '1px solid rgba(139,92,246,0.3)',
+    background: '#FFFFFF', border: '1px solid rgba(176,38,79,0.15)',
     borderRadius: 12, minWidth: 160, overflow: 'hidden',
-    boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+    boxShadow: '0 8px 32px rgba(36,16,22,0.12)',
   },
   dropItem: {
     display: 'flex', alignItems: 'center', gap: 10,
-    padding: '12px 16px', color: '#d1b3ff', cursor: 'pointer',
+    padding: '12px 16px', color: '#4A3B38', cursor: 'pointer',
     fontSize: 14, textDecoration: 'none', background: 'none',
     border: 'none', width: '100%', transition: 'background 0.15s',
   },
@@ -85,7 +87,7 @@ export default function Navbar({ onAuthOpen }) {
 
           {user && userDropdown && (
             <div style={styles.dropdown} onMouseLeave={() => setUserDropdown(false)}>
-              <div style={{ padding: '10px 16px', borderBottom: '1px solid rgba(139,92,246,0.2)', fontSize: 12, color: '#9b73d4' }}>
+              <div style={{ padding: '10px 16px', borderBottom: '1px solid rgba(176,38,79,0.2)', fontSize: 12, color: '#8B6F66' }}>
                 {user.email}
               </div>
               {isAdmin && (
