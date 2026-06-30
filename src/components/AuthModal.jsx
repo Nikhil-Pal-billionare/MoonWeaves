@@ -43,18 +43,18 @@ export default function AuthModal({ onClose }) {
       <div style={{
         position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
         zIndex: 4001, width: '100%', maxWidth: 400, background: '#FFFFFF',
-        borderRadius: 20, border: '1px solid rgba(176,38,79,0.35)', padding: 32,
+        borderRadius: 20, border: '1px solid rgba(107,30,131,0.35)', padding: 32,
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28 }}>
           <div>
-            <div style={{ fontSize: 22, fontWeight: 700, color: '#241016' }}>
+            <div style={{ fontSize: 22, fontWeight: 700, color: '#282C3F' }}>
               {mode === 'login' ? 'Welcome Back' : 'Join MoonWeaver'}
             </div>
-            <div style={{ fontSize: 13, color: '#8B6F66', marginTop: 4 }}>
+            <div style={{ fontSize: 13, color: '#686B78', marginTop: 4 }}>
               {mode === 'login' ? 'Sign in to your account' : 'Create your account'}
             </div>
           </div>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#8B6F66', cursor: 'pointer' }}>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#686B78', cursor: 'pointer' }}>
             <X size={20} />
           </button>
         </div>
@@ -62,8 +62,8 @@ export default function AuthModal({ onClose }) {
         {/* Google Button */}
         <button onClick={handleGoogle} style={{
           width: '100%', padding: '12px 0', borderRadius: 12, marginBottom: 20,
-          background: '#FFFFFF', border: '1px solid rgba(36,16,22,0.15)',
-          color: '#241016', cursor: 'pointer', fontSize: 14, fontWeight: 600,
+          background: '#FFFFFF', border: '1px solid rgba(40,44,63,0.15)',
+          color: '#282C3F', cursor: 'pointer', fontSize: 14, fontWeight: 600,
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
         }}>
           <svg width="18" height="18" viewBox="0 0 24 24">
@@ -76,35 +76,35 @@ export default function AuthModal({ onClose }) {
         </button>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-          <div style={{ flex: 1, height: 1, background: 'rgba(176,38,79,0.2)' }} />
-          <span style={{ fontSize: 12, color: '#9C8983' }}>or</span>
-          <div style={{ flex: 1, height: 1, background: 'rgba(176,38,79,0.2)' }} />
+          <div style={{ flex: 1, height: 1, background: 'rgba(107,30,131,0.2)' }} />
+          <span style={{ fontSize: 12, color: '#9C9C9C' }}>or</span>
+          <div style={{ flex: 1, height: 1, background: 'rgba(107,30,131,0.2)' }} />
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div style={{ position: 'relative' }}>
-            <Mail size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#8B6F66' }} />
+            <Mail size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#686B78' }} />
             <input
               type="email" placeholder="Email address" value={email}
               onChange={e => setEmail(e.target.value)}
               style={{ width: '100%', padding: '12px 14px 12px 40px', borderRadius: 10,
-                background: 'rgba(176,38,79,0.08)', border: '1px solid rgba(176,38,79,0.25)',
-                color: '#241016', fontSize: 14, outline: 'none', boxSizing: 'border-box' }}
+                background: 'rgba(107,30,131,0.08)', border: '1px solid rgba(107,30,131,0.25)',
+                color: '#282C3F', fontSize: 14, outline: 'none', boxSizing: 'border-box' }}
             />
           </div>
           <div style={{ position: 'relative' }}>
-            <Lock size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#8B6F66' }} />
+            <Lock size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#686B78' }} />
             <input
               type={showPass ? 'text' : 'password'} placeholder="Password" value={password}
               onChange={e => setPassword(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSubmit()}
               style={{ width: '100%', padding: '12px 40px 12px 40px', borderRadius: 10,
-                background: 'rgba(176,38,79,0.08)', border: '1px solid rgba(176,38,79,0.25)',
-                color: '#241016', fontSize: 14, outline: 'none', boxSizing: 'border-box' }}
+                background: 'rgba(107,30,131,0.08)', border: '1px solid rgba(107,30,131,0.25)',
+                color: '#282C3F', fontSize: 14, outline: 'none', boxSizing: 'border-box' }}
             />
             <button onClick={() => setShowPass(!showPass)}
               style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)',
-                background: 'none', border: 'none', color: '#8B6F66', cursor: 'pointer' }}>
+                background: 'none', border: 'none', color: '#686B78', cursor: 'pointer' }}>
               {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>
           </div>
@@ -112,20 +112,20 @@ export default function AuthModal({ onClose }) {
 
         {error && <div style={{ marginTop: 14, padding: '10px 14px', background: 'rgba(220,38,38,0.1)',
           border: '1px solid rgba(220,38,38,0.3)', borderRadius: 10, fontSize: 13, color: '#DC2626' }}>{error}</div>}
-        {success && <div style={{ marginTop: 14, padding: '10px 14px', background: 'rgba(31,138,76,0.1)',
-          border: '1px solid rgba(31,138,76,0.3)', borderRadius: 10, fontSize: 13, color: '#1F8A4C' }}>{success}</div>}
+        {success && <div style={{ marginTop: 14, padding: '10px 14px', background: 'rgba(3,166,133,0.1)',
+          border: '1px solid rgba(3,166,133,0.3)', borderRadius: 10, fontSize: 13, color: '#03A685' }}>{success}</div>}
 
         <button onClick={handleSubmit} disabled={loading}
           style={{ width: '100%', marginTop: 20, padding: '13px 0', borderRadius: 12, border: 'none',
-            background: loading ? '#E0AAB7' : 'linear-gradient(135deg,#B0264F,#7A1635)',
+            background: loading ? '#CCCCCC' : '#6B1E83',
             color: '#fff', fontSize: 15, fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer' }}>
           {loading ? 'Please wait...' : mode === 'login' ? 'Sign In' : 'Create Account'}
         </button>
 
-        <p style={{ textAlign: 'center', marginTop: 18, fontSize: 13, color: '#8B6F66' }}>
+        <p style={{ textAlign: 'center', marginTop: 18, fontSize: 13, color: '#686B78' }}>
           {mode === 'login' ? "Don't have an account? " : "Already have an account? "}
           <button onClick={() => { setMode(mode === 'login' ? 'signup' : 'login'); setError(''); setSuccess('') }}
-            style={{ background: 'none', border: 'none', color: '#B0264F', cursor: 'pointer', fontWeight: 600, fontSize: 13 }}>
+            style={{ background: 'none', border: 'none', color: '#6B1E83', cursor: 'pointer', fontWeight: 600, fontSize: 13 }}>
             {mode === 'login' ? 'Sign Up' : 'Sign In'}
           </button>
         </p>
