@@ -1,99 +1,80 @@
 import { useState } from 'react'
-import { Heart, ShoppingBag, Star } from 'lucide-react'
-import { useCart } from '../context/CartContext'
+import { Heart, Star, Truck } from 'lucide-react'
 
 const s = {
   card: {
-    background: '#FFFFFF', borderRadius: 16, overflow: 'hidden',
-    border: '1px solid rgba(176,38,79,0.15)', cursor: 'pointer',
-    transition: 'transform 0.2s, border-color 0.2s, box-shadow 0.2s',
+    background: '#FFFFFF', borderRadius: 6, overflow: 'hidden',
+    border: '1px solid #E5E5E5', cursor: 'pointer',
+    transition: 'box-shadow 0.15s',
   },
-  imgWrap: { position: 'relative', paddingTop: '130%', overflow: 'hidden', background: '#FBEAE3' },
-  img: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover',
-    transition: 'transform 0.4s' },
-  badge: {
-    position: 'absolute', top: 10, left: 10,
-    background: 'linear-gradient(135deg,#B0264F,#7A1635)',
-    color: '#fff', fontSize: 11, fontWeight: 700,
-    padding: '3px 8px', borderRadius: 20,
-  },
+  imgWrap: { position: 'relative', paddingTop: '125%', overflow: 'hidden', background: '#F5F5F6' },
+  img: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' },
   wishBtn: {
-    position: 'absolute', top: 10, right: 10,
-    background: 'rgba(10,10,15,0.7)', border: 'none', cursor: 'pointer',
-    color: '#B0264F', padding: 6, borderRadius: 8, display: 'flex',
-    alignItems: 'center', backdropFilter: 'blur(8px)',
+    position: 'absolute', top: 8, right: 8,
+    background: 'rgba(255,255,255,0.9)', border: 'none', cursor: 'pointer',
+    color: '#6B1E83', padding: 6, borderRadius: '50%', display: 'flex',
+    alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.15)',
   },
-  info: { padding: '14px 14px 16px' },
-  brand: { fontSize: 11, color: '#8B6F66', fontWeight: 600, textTransform: 'uppercase',
-    letterSpacing: 0.5, marginBottom: 4 },
-  name: { fontSize: 13, color: '#241016', fontWeight: 500, lineHeight: 1.4,
-    marginBottom: 8, display: '-webkit-box', WebkitLineClamp: 2,
-    WebkitBoxOrient: 'vertical', overflow: 'hidden' },
-  priceRow: { display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 },
-  price: { fontSize: 16, fontWeight: 700, color: '#B0264F' },
-  mrp: { fontSize: 12, color: '#9C8983', textDecoration: 'line-through' },
-  off: { fontSize: 11, color: '#1F8A4C', fontWeight: 600 },
-  addBtn: {
-    width: '100%', padding: '9px 0', borderRadius: 10,
-    background: 'linear-gradient(135deg,#B0264F,#7A1635)',
-    color: '#fff', border: 'none', cursor: 'pointer',
-    fontSize: 13, fontWeight: 600, display: 'flex',
-    alignItems: 'center', justifyContent: 'center', gap: 6,
-    transition: 'opacity 0.2s',
-  },
+  info: { padding: '10px 10px 12px' },
+  name: { fontSize: 13, color: '#282C3F', fontWeight: 500, lineHeight: 1.35,
+    marginBottom: 5, display: '-webkit-box', WebkitLineClamp: 2,
+    WebkitBoxOrient: 'vertical', overflow: 'hidden', minHeight: 35 },
+  priceRow: { display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 4, flexWrap: 'wrap' },
+  price: { fontSize: 15, fontWeight: 700, color: '#282C3F' },
+  mrp: { fontSize: 12, color: '#9C9C9C', textDecoration: 'line-through' },
+  off: { fontSize: 12, color: '#03A685', fontWeight: 600 },
+  ratingRow: { display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 },
+  ratingBadge: { display: 'flex', alignItems: 'center', gap: 2, background: '#03A685',
+    color: '#fff', fontSize: 11, fontWeight: 700, padding: '1px 5px', borderRadius: 3 },
+  ratingCount: { fontSize: 11, color: '#9C9C9C' },
+  delivery: { display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#535766' },
   outOfStock: {
-    width: '100%', padding: '9px 0', borderRadius: 10,
-    background: '#F2E3DD', color: '#9C8983', border: 'none',
-    fontSize: 13, fontWeight: 600,
+    position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.75)',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    fontSize: 12, fontWeight: 700, color: '#282C3F',
   },
 }
 
 export default function ProductCard({ product, onClick }) {
-  const { addToCart } = useCart()
   const [wished, setWished] = useState(false)
-  const [hover, setHover] = useState(false)
 
-  const img = product.images?.[0] || 'https://placehold.co/400x520/FBEAE3/B0264F?text=MoonWeaver'
+  const img = product.images?.[0] || 'https://placehold.co/400x500/F5F5F6/6B1E83?text=MoonWeaver'
   const discount = product.discount_percent || (product.mrp && product.price
     ? Math.round((1 - product.price / product.mrp) * 100) : 0)
+  const rating = product.rating || 4.1
+  const ratingCount = product.rating_count || Math.floor(Math.random() * 800 + 50)
 
   return (
-    <div
-      style={{ ...s.card, transform: hover ? 'translateY(-4px)' : 'none',
-        borderColor: hover ? 'rgba(176,38,79,0.4)' : 'rgba(176,38,79,0.15)',
-        boxShadow: hover ? '0 12px 40px rgba(176,38,79,0.2)' : 'none' }}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
-      <div style={s.imgWrap} onClick={onClick}>
-        <img src={img} alt={product.name} style={{ ...s.img, transform: hover ? 'scale(1.05)' : 'scale(1)' }} />
-        {discount > 0 && <span style={s.badge}>{discount}% OFF</span>}
+    <div style={s.card} onClick={onClick}>
+      <div style={s.imgWrap}>
+        <img src={img} alt={product.name} style={s.img} />
         <button style={s.wishBtn} onClick={e => { e.stopPropagation(); setWished(!wished) }}>
-          <Heart size={15} fill={wished ? '#B0264F' : 'none'} />
+          <Heart size={14} fill={wished ? '#6B1E83' : 'none'} color="#6B1E83" />
         </button>
+        {product.stock === 0 && <div style={s.outOfStock}>Out of Stock</div>}
       </div>
 
       <div style={s.info}>
-        <div style={s.brand}>{product.fabric || product.subcategory || 'Ethnic Wear'}</div>
-        <div style={s.name} onClick={onClick}>{product.name}</div>
+        <div style={s.name}>{product.name}</div>
 
         <div style={s.priceRow}>
           <span style={s.price}>₹{product.price?.toLocaleString('en-IN')}</span>
           {product.mrp > product.price && (
             <>
               <span style={s.mrp}>₹{product.mrp?.toLocaleString('en-IN')}</span>
-              {discount > 0 && <span style={s.off}>({discount}% off)</span>}
+              {discount > 0 && <span style={s.off}>{discount}% off</span>}
             </>
           )}
         </div>
 
-        {product.stock > 0 ? (
-          <button style={s.addBtn} onClick={e => { e.stopPropagation(); addToCart(product) }}>
-            <ShoppingBag size={14} /> Add to Bag
-          </button>
-        ) : (
-          <button style={s.outOfStock} disabled>Out of Stock</button>
-        )}
+        <div style={s.ratingRow}>
+          <span style={s.ratingBadge}>{rating.toFixed ? rating.toFixed(1) : rating} <Star size={9} fill="#fff" /></span>
+          <span style={s.ratingCount}>{ratingCount}</span>
+        </div>
+
+        <div style={s.delivery}>
+          <Truck size={12} /> Free Delivery
+        </div>
       </div>
     </div>
   )
