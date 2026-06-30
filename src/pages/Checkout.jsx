@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { MapPin, CreditCard, CheckCircle, Trash2 } from 'lucide-react'
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
-import { supabase } from '../supabase'
 
 const STEPS = ['Bag Review', 'Delivery Address', 'Payment']
 
@@ -40,10 +39,14 @@ export default function Checkout() {
   }
 
   async function createRazorpayOrder() {
-    // In production: call your backend API to create Razorpay order
-    // For now we create a mock order ID and process payment client-side
-    // You need a Vercel serverless function at /api/create-order to create real orders
-    return { id: 'order_' + Date.now(), amount: grandTotal * 100, currency: 'INR' }
+    const res = await fetch('/api/create-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: grandTotal }),
+    })
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error || 'Could not create order')
+    return data
   }
 
   async function handlePayment() {
@@ -70,26 +73,39 @@ export default function Checkout() {
         },
         theme: { color: '#6B1E83' },
         handler: async (response) => {
-          // Save order to Supabase
-          const { data, error } = await supabase.from('orders').insert({
-            user_id: user?.id || null,
-            user_email: addr.email,
-            items: cart.map(i => ({
-              id: i.id, name: i.name, price: i.price,
-              qty: i.qty, image: i.images?.[0] || null
-            })),
-            total_amount: grandTotal,
-            razorpay_order_id: rzpOrder.id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            status: 'confirmed',
-            shipping_address: addr,
-          }).select().single()
+          try {
+            const verifyRes = await fetch('/api/verify-payment', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                cart: cart.map(i => ({
+                  id: i.id, name: i.name, price: i.price,
+                  qty: i.qty, image: i.images?.[0] || null
+                })),
+                total_amount: grandTotal,
+                user_id: user?.id || null,
+                user_email: addr.email,
+                shipping_address: addr,
+              }),
+            })
+            const verifyData = await verifyRes.json()
 
-          if (!error && data) {
-            setOrderId(data.id)
+            if (!verifyRes.ok) {
+              alert(verifyData.error || 'Payment verification failed. Please contact support with your payment ID: ' + response.razorpay_payment_id)
+              setPaying(false)
+              return
+            }
+
+            setOrderId(verifyData.orderId)
+            clearCart()
+            setOrderDone(true)
+          } catch (e) {
+            console.error(e)
+            alert('Payment succeeded but order confirmation failed. Please contact support with your payment ID: ' + response.razorpay_payment_id)
           }
-          clearCart()
-          setOrderDone(true)
           setPaying(false)
         },
         modal: {
@@ -105,7 +121,7 @@ export default function Checkout() {
       rzp.open()
     } catch (e) {
       console.error(e)
-      alert('Something went wrong. Please try again.')
+      alert(e.message || 'Something went wrong. Please try again.')
       setPaying(false)
     }
   }
@@ -363,4 +379,4 @@ export default function Checkout() {
       </div>
     </div>
   )
-                  }
+      }
